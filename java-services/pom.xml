@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version> <!-- Usa una versión estable de Spring Boot 3 -->
+        <relativePath/>
+    </parent>
+    <!-- CAMBIA 'com.example' si prefieres otro group id -->
+    <groupId>com.example.polyglot</groupId>
+    <artifactId>java-services</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging> <!-- Muy Importante: packaging pom -->
+    <name>java-services</name>
+    <description>Parent POM for Java Microservices</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <!-- Asegúrate que esta versión de Spring Cloud sea compatible con tu Spring Boot -->
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+    </properties>
+
+    <modules>
+        <module>eureka-server</module>
+        <module>gateway-service</module>
+        <module>product-service</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement> <!-- Define versiones de plugins para hijos -->
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip> <!-- El padre no genera JAR ejecutable -->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins> <!-- Plugin para asegurar que no se construya el JAR del padre -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

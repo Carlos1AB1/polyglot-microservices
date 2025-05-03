@@ -1,0 +1,40 @@
+server:
+  port: 8080 # Puerto del Gateway
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        # Ruta para Product Service (Java)
+        - id: product-service-route
+          uri: lb://PRODUCT-SERVICE # Nombre registrado en Eureka
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - StripPrefix=1 # /api/products -> /, /api/products/1 -> /1 (Ajustar controlador de producto)
+
+        # Ruta para Order Service (Python)
+        - id: order-service-route
+          uri: lb://ORDER-SERVICE-PY # Nombre que registrará el servicio Python
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=1 # /api/orders -> /, /api/orders/1 -> /1 (Ajustar controlador de órdenes)
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+# logging: # Descomentar si necesitas debug del gateway
+#   level:
+#     org.springframework.cloud.gateway: DEBUG
+#     reactor.netty.http.client: DEBUG
