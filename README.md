@@ -194,10 +194,4 @@ Para añadir un nuevo microservicio:
 2. Regístralo con Eureka (ver ejemplos en el código Java o Python)
 3. Añade una ruta en la configuración del API Gateway
 
-## Licencia
 
-[Licencia MIT](LICENSE)
-
-## Colaboradores
-
-- Tu Nombre - Trabajo inicial
